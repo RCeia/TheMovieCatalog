@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="nav">
+            <div class="nav-logo">
+                <a href="/" class="nav-logo-link">
+                    <p class="nav-logo">TMC</p>
+                </a>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="/" class="link {{ 'active' if page == 'home' }}">Home</a></li>
+                    <li><a href="/discover" class="link {{ 'active' if page == 'movies' }}">Discover</a></li>
+                    <li><a href="/watchlist" class="link {{ 'active' if page == 'watchlist' }}">Watchlist</a></li>
+                    <li><a href="/friends" class="link {{ 'active' if page == 'friends' }}">Friends</a></li>
+                </ul>
+                <div class="nav-button">
+                    {% if session.get('user_id') %}
+                        <a href="/logout"><button class="btn white-btn" id="logoutBtn">Sign Out</button></a>
+                        <a href="/profile/{{username}}" class="profile-icon"><i class="fas fa-user-circle profile-icon"></i></a>
+                    {% else %}
+                        <a href="/login"><button class="btn white-btn" id="loginBtn">Sign In</button></a>
+                        <a href="/register"><button class="btn" id="registerBtn">Sign Up</button></a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="nav-menu-btn">
+                <i class="bx bx-menu" onclick="myMenuFunction()" aria-label="Toggle menu"></i>
+            </div>
+        </nav>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div>
+                    {% for category, message in messages %}
+                    <div id ="alert"class="alert alert-{{ category }} custom-alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Main Content Placeholder -->
+        <div class="main-content">
+            {% block content %}{% endblock %}
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2023 Rodrigo Ceia. All rights reserved.</p>
+        </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

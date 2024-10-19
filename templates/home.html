@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}Movies - TheMovieCatalog{% endblock %}
+
+{% block content %}
+<h1 class="site-title">
+    <span class="sec-color">T</span>he<span class="sec-color">M</span>ovie<span class="sec-color">C</span>atalog
+</h1>
+<div class="search-container">
+    <div id="cover">
+        <form method="get" action="/search">
+            <div class="tb">
+                <div class="td">
+                    <input type="text" placeholder="Search for movies..." name="query" required aria-label="Search for movies">
+                </div>
+                <div id="s-cover">
+                    <button type="submit" aria-label="Search">
+                        <div id="s-circle"></div>
+                        <span></span>
+                        <span class="other-line"></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

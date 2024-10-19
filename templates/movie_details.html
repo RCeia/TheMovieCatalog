@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ movie['title'] }} - TheMovieCatalog{% endblock %}
+
+{% block content %}
+<div class="movie-container">
+    <!-- Movie Poster and Basic Info Section -->
+    <div class="movie-poster-container">
+        <h1>
+            {{ movie['title'] }} 
+            <span class="vote-average">{{ "%.1f"|format(movie['vote_average']) }}/10⭐</span>
+        </h1>
+        <div class="movie-poster-wrapper">
+            <img class="movie-poster" src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{ movie['title'] }}">
+            <div class="movie-icons">
+                <!-- Action buttons with data attributes for movie ID and action type -->
+                <button 
+                    class="icon-eye movie-action-btn" 
+                    data-movie-id="{{ movie['id'] }}" 
+                    data-action="watch" 
+                    title="Watched">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button 
+                    class="icon-heart movie-action-btn" 
+                    data-movie-id="{{ movie['id'] }}" 
+                    data-action="like" 
+                    title="Like">
+                    <i class="fas fa-heart"></i>
+                </button>
+                <button 
+                    class="icon-clock movie-action-btn" 
+                    data-movie-id="{{ movie['id'] }}" 
+                    data-action="watchlist" 
+                    title="Add to Watchlist">
+                    <i class="fas fa-clock"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Movie Description -->
+        <div class="movie-description">
+            <p><strong>Release Date:</strong> {{ movie['release_date'] }}</p>
+            <p><strong>Overview:</strong> {{ movie['overview'][:100] }}...</p>
+            <p><strong>Genres:</strong> 
+                {% for genre in movie['genres'] %}
+                    {{ genre['name'] }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+            <p><strong>Runtime:</strong> {{ movie['runtime'] }} minutes</p>
+        </div>
+    </div>
+
+    <!-- Movie Details and Cast Section -->
+    <div class="movie-details">
+        <h2>Cast</h2>
+        <div class="movies-container">
+            <div id="cast-carousel" class="movie-carousel">
+                <!-- Display the first 10 cast members with their images and names -->
+                {% for cast_member in movie['credits']['cast'][:10] %}
+                    <div class="movie-slide">
+                        <img src="https://image.tmdb.org/t/p/w500{{ cast_member['profile_path'] }}" alt="{{ cast_member['name'] }}">
+                        <h3>{{ cast_member['name'] }}</h3>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

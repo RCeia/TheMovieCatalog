@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block title %}Profile - TheMovieCatalog{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <!-- Profile Header Section -->
+    <div class="profile-header">
+        <!-- Left: Profile Icon -->
+        <div class="left-side">
+            <div class="profile-icon">
+                <i class="fas fa-user-circle"></i> <!-- Profile icon instead of image -->
+            </div>
+        </div>
+        
+        <!-- Center: Profile Info -->
+        <div class="profile-info">
+            <h2 class="profile-name">{{ user.username }}</h2>
+            <div class="profile-links">
+                <a href="{{ url_for('user_following', user_id=user.id) }}" class="profile-link">Following: <span class="count">{{ following_count }}</span></a>
+                <a href="{{ url_for('user_followers', user_id=user.id) }}" class="profile-link">Followers: <span class="count">{{ followers_count }}</span></a>
+            </div>
+        </div>
+
+        <!-- Right: Follow/Unfollow Button -->
+        {% if current_user and session['user_id'] != user.id %}
+        <div class="right-side">
+            <div class="follow-buttons">
+                {% if current_user.is_following(user) %}
+                <form action="{{ url_for('unfollow', username=user.username) }}" method="POST" style="margin: 0;">
+                    <button type="submit" class="btn btn-warning">Unfollow</button>
+                </form>
+                {% else %}
+                <form action="{{ url_for('follow', username=user.username) }}" method="POST" style="margin: 0;">
+                    <button type="submit" class="btn btn-primary">Follow</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Recent Activity Section -->
+    <div class="movies-container">
+        <h3 class="section-title"><span class="sec-color">R</span>ecent <span class="sec-color">A</span>ctivity</h3>
+        <div id="top-rated-movies-carousel" class="movie-carousel">
+            {% for movie in recent_activity_movies %}
+            <div class="movie-slide">
+                <a href="{{ url_for('movie_details', movie_name=movie.title) }}">
+                    <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
+                </a>
+                <div class="movie-icons">
+                    <button 
+                        class="icon-eye movie-action-btn {% if movie.watched %}active{% endif %}" 
+                        data-movie-id="{{ movie.id }}" 
+                        data-action="watch" 
+                        title="Watched">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button 
+                        class="icon-heart movie-action-btn {% if movie.liked %}active{% endif %}" 
+                        data-movie-id="{{ movie.id }}" 
+                        data-action="like" 
+                        title="Like">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    <button 
+                        class="icon-clock movie-action-btn {% if movie.watchlist %}active{% endif %}" 
+                        data-movie-id="{{ movie.id }}" 
+                        data-action="watchlist" 
+                        title="Add to Watchlist">
+                        <i class="fas fa-clock"></i>
+                    </button>
+                </div>
+                <h3>{{ movie.title }}</h3>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

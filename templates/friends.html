@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}Friends - TheMovieCatalog{% endblock %}
+
+{% block content %}
+<div class="friends-header">
+    <h1 class="site-title">
+        <span class="sec-color">F</span>riends
+    </h1>
+    <div class="search-container search-friends">
+        <div id="cover">
+            <form method="get" action="{{ url_for('search_friends') }}">
+                <div class="tb">
+                    <div class="td">
+                        <input type="text" placeholder="Search for friends..." name="query" required aria-label="Search for friends">
+                    </div>
+                    <div id="s-cover">
+                        <button type="submit" aria-label="Search">
+                            <div id="s-circle"></div>
+                            <span></span>
+                            <span class="other-line"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Movie Carousel Section -->
+<div class="movies-container">
+    <h2 class="section-title"><span class="sec-color">P</span>opular <span class="sec-color">W</span>ith <span class="sec-color">F</span>riends</h2>
+    <div id="popular-with-friends-carousel" class="movie-carousel">
+        {% if movies %}
+            {% for movie in movies %}
+                <div class="movie-slide">
+                    <a href="{{ url_for('movie_details', movie_name=movie['title']) }}">
+                        <img src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{ movie['title'] }}">
+                    </a>
+                    <div class="movie-icons">
+                        <button 
+                            class="icon-eye movie-action-btn" 
+                            data-movie-id="{{ movie['id'] }}" 
+                            data-action="watch" 
+                            title="Watched">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button 
+                            class="icon-heart movie-action-btn" 
+                            data-movie-id="{{ movie['id'] }}" 
+                            data-action="like" 
+                            title="Like">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                        <button 
+                            class="icon-clock movie-action-btn" 
+                            data-movie-id="{{ movie['id'] }}" 
+                            data-action="watchlist" 
+                            title="Add to Watchlist">
+                            <i class="fas fa-clock"></i>
+                        </button>
+                    </div>
+                    <h3>{{ movie['title'] }}</h3>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="movie-slide warning-message">
+                <p>No popular movies with friends at the moment.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

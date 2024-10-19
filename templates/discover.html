@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+
+{% block title %}Discovers - TheMovieCatalog{% endblock %}
+
+{% block content %}
+<!-- Popular This Week Carousel -->
+<div class="movies-container">
+    <h2 class="section-title"><span class="sec-color">P</span>opular <span class="sec-color">T</span>his <span class="sec-color">W</span>eek</h2>
+    <div id="popular-this-week-carousel" class="movie-carousel">
+        {% if trending_movies %}
+            {% for movie in trending_movies %}
+                <div class="movie-slide">
+                    <a href="{{ url_for('movie_details', movie_name=movie['title']) }}">
+                        <img src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{ movie['title'] }}">
+                    </a>
+                    <div class="movie-icons">
+                        <button 
+                            class="icon-eye movie-action-btn" 
+                            data-movie-id="{{ movie['id'] }}" 
+                            data-action="watch" 
+                            title="Watched">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button 
+                            class="icon-heart movie-action-btn" 
+                            data-movie-id="{{ movie['id'] }}" 
+                            data-action="like" 
+                            title="Like">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                        <button 
+                            class="icon-clock movie-action-btn" 
+                            data-movie-id="{{ movie['id'] }}" 
+                            data-action="watchlist" 
+                            title="Add to Watchlist">
+                            <i class="fas fa-clock"></i>
+                        </button>
+                    </div>
+                    <h3>{{ movie['title'] }}</h3>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="warning-message">
+                <p>No movies to display</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Top TMDB Movies Carousel -->
+<div class="movies-container">
+    <h2 class="section-title"><span class="sec-color">P</span>opular <span class="sec-color">A</span>ll <span class="sec-color">T</span>ime</h2>
+    <div id="top-rated-movies-carousel" class="movie-carousel">
+        {% if top_rated_movies %}
+            {% for movie in top_rated_movies %}
+                <div class="movie-slide">
+                    <a href="{{ url_for('movie_details', movie_name=movie['title']) }}">
+                        <img src="https://image.tmdb.org/t/p/w500{{ movie['poster_path'] }}" alt="{{ movie['title'] }}">
+                    </a>
+                    <div class="movie-icons">
+                        <button 
+                            class="icon-eye movie-action-btn" 
+                            data-movie-id="{{ movie['id'] }}" 
+                            data-action="watch" 
+                            title="Watched">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button 
+                            class="icon-heart movie-action-btn" 
+                            data-movie-id="{{ movie['id'] }}" 
+                            data-action="like" 
+                            title="Like">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                        <button 
+                            class="icon-clock movie-action-btn" 
+                            data-movie-id="{{ movie['id'] }}" 
+                            data-action="watchlist" 
+                            title="Add to Watchlist">
+                            <i class="fas fa-clock"></i>
+                        </button>
+                    </div>
+                    <h3>{{ movie['title'] }}</h3>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="warning-message">
+                <p>No movies to display</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

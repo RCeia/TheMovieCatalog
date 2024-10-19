@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}Search Results - TheMovieCatalog{% endblock %}
+
+{% block content %}
+<div class="search-results-container">
+    <h1 class="section-title">Search Results for "{{ query }}"</h1>
+
+    {% if movies %}
+        <div class="movie-results">
+            {% for movie in movies %}
+            <div class="movie-card">
+                <a href="{{ url_for('movie_details', movie_name=movie.title) }}">
+                    {% if movie.poster_path %}
+                        <img class="movie-poster" src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }} poster">
+                    {% else %}
+                        <div class="no-poster">No poster available</div>
+                    {% endif %}
+                </a>
+                <div class="movie-info">
+                    <h2 class="movie-title">{{ movie.title }}</h2>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No movies found for your search query.</p>
+    {% endif %}
+
+    <a href="{{ url_for('home') }}" class="back-home-link">Back to Home</a>
+</div>
+{% endblock %}

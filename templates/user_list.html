@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{% if list_type == 'following' %}
+Following - TheMovieCatalog
+{% elif list_type == 'followers' %}
+Followers - TheMovieCatalog
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="user-list-container">
+    <h2 class="section-title">
+        {% if list_type == 'following' %}
+        Following
+        {% elif list_type == 'followers' %}
+        Followers
+        {% endif %}
+    </h2>
+
+    <div class="user-list">
+        {% if users %}
+            {% for user in users %}
+            <div class="user-card">
+                <a href="{{ url_for('profile_by_username', username=user.username) }}" class="user-link">
+                    <div class="user-icon">
+                        <i class="fas fa-user-circle"></i> <!-- Placeholder for user icon -->
+                    </div>
+                    <h3 class="user-name">{{ user.username }}</h3>
+                </a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No users to display.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}Necessary Login - TheMovieCatalog{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">You must be logged in to view your {{ page }}.</h2>
+    <div class="text-center mt-3">
+        <a href="{{ url_for('login') }}"><button class="btn btn-secondary">Sign In</button></a>
+        <a href="{{ url_for('register') }}"><button class="btn btn-primary">Sign Up</button></a>
+    </div>
+</div>
+{% endblock %}
